@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class SepakerTurn:
+class SpeakerTurn:
     start: float
     end: float
     speaker: str
