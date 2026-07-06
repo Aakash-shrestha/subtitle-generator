@@ -13,3 +13,11 @@ class TranscriptSegment:
     start: float
     end: float
     text: str
+
+
+@dataclass
+class SubtitleCues:
+    start: float
+    end: float
+    speaker: str
+    text: str
