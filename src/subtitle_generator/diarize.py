@@ -29,4 +29,5 @@ def diarize(audio_path: Path, hf_token: str) -> list[SpeakerTurn]:
     return [
         SpeakerTurn(start=segment.start, end=segment.end, speaker=speaker)
         for segment, _, speaker in tracks
+        if segment.end > segment.start
     ]
