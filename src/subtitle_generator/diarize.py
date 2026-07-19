@@ -5,6 +5,7 @@ from typing import cast
 import torch
 from pyannote.audio import Pipeline
 from pyannote.audio.pipelines.speaker_diarization import DiarizeOutput
+from pyannote.audio.pipelines.utils.hook import ProgressHook
 from pyannote.core import Segment
 
 from subtitle_generator.types import SpeakerTurn
@@ -20,7 +21,8 @@ def diarize(audio_path: Path, hf_token: str) -> list[SpeakerTurn]:
     device = torch.device("mps" if torch.mps.is_available() else "cpu")
     pipeline = pipeline.to(device)
 
-    output = cast(DiarizeOutput, pipeline(str(audio_path)))
+    with ProgressHook() as hook:
+        output = cast(DiarizeOutput, pipeline(str(audio_path), hook=hook))
     annotation = output.exclusive_speaker_diarization
     tracks = cast(
         Iterator[tuple[Segment, str, str]],
